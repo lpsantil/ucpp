@@ -350,4 +350,3 @@
 /* #define SEMPER_FIDELIS */
 
 /* End of options overridable by UCPP_CONFIG and config.h */
-

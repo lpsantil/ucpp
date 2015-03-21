@@ -2034,7 +2034,11 @@ int cpp(struct lexer_state *ls)
 		}
 		pop_file_context(ls);
 		ls->oline ++;
-		if (enter_file(ls, ls->flags)) break;
+		if (enter_file(ls, ls->flags)) {
+			ls->ctok->type = NEWLINE;
+			ls->ltwnl = 1;
+			break;
+		}
 	}
 	if (!(ls->ltwnl && (ls->ctok->type == SHARP
 		|| ls->ctok->type == DIG_SHARP))
@@ -2559,4 +2563,3 @@ int main(int argc, char *argv[])
 	return fr ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 #endif
-

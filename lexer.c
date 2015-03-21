@@ -1018,4 +1018,3 @@ int next_token(struct lexer_state *ls)
 	}
 	return read_token(ls);
 }
-

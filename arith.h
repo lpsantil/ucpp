@@ -253,4 +253,3 @@ ARITH_DECL_BI_SS_S(pct);
 ARITH_DECL_MONO_ST_US(octconst);
 ARITH_DECL_MONO_ST_US(hexconst);
 ARITH_DECL_MONO_ST_US(decconst);
-
