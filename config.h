@@ -1,5 +1,7 @@
 /*
  * (c) Thomas Pornin 1999 - 2002
+ * (c) Louis P. Santillan 2011
+ * This file is derived from tune.h
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -19,20 +21,13 @@
  * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
  * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifndef UCPP__TUNE__
-#define UCPP__TUNE__
-
-#ifdef UCPP_CONFIG
-#include "config.h"
-#else
 
 /* ====================================================================== */
 /*
@@ -281,6 +276,7 @@
  *
  * If you want no standard assertion, define STD_ASSERT to 0.
  */
+#define STD_ASSERT 0
 /*
 #define STD_ASSERT	"cpu(i386)", "machine(i386)", "system(unix)", \
 			"system(freebsd)"
@@ -293,6 +289,7 @@
  * Each string must be either "name" or "name=token-list". If you want
  * no predefined macro, define STD_MACROS to 0.
  */
+#define STD_MACROS 0
 /*
 #define STD_MACROS	"__FreeBSD=4", "__unix", "__i386", \
 			"__FreeBSD__=4", "__unix__", "__i386__"
@@ -352,71 +349,5 @@
  */
 /* #define SEMPER_FIDELIS */
 
-#endif
 /* End of options overridable by UCPP_CONFIG and config.h */
 
-/* ====================================================================== */
-/*
- * Some constants used for memory increment granularity. Increasing these
- * values reduces the number of calls to malloc() but increases memory
- * consumption.
- *
- * Values should be powers of 2.
- */
-
-/* for cpp.c */
-#define COPY_LINE_LENGTH	80
-#define INPUT_BUF_MEMG		8192
-#define OUTPUT_BUF_MEMG		8192
-#define TOKEN_NAME_MEMG		64	/* must be at least 4 */
-#define TOKEN_LIST_MEMG		32
-#define INCPATH_MEMG		16
-#define GARBAGE_LIST_MEMG	32
-#define LS_STACK_MEMG		4
-#define FNAME_MEMG		32
-
-/* ====================================================================== */
-
-/* To protect the innocent. */
-#if defined(NO_UCPP_BUF) && defined(UCPP_MMAP)
-#undef UCPP_MMAP
-#endif
-
-#if defined(UCPP_MMAP) || defined(POSIX_JMP)
-#ifndef _POSIX_SOURCE
-#define _POSIX_SOURCE	1
-#endif
-#endif
-
-/*
- * C90 does not know about the "inline" keyword, but C99 does know,
- * and some C90 compilers know it as an extension. This part detects
- * these occurrences.
- */
-
-#ifndef INLINE
-
-#if __STDC__ && __STDC_VERSION__ >= 199901L
-/* this is a C99 compiler, keep inline unchanged */
-#elif defined(__GNUC__)
-/* this is GNU gcc; modify inline. The semantics is not identical to C99
-   but the differences are irrelevant as long as inline functions are static */
-#undef inline
-#define inline __inline__
-#elif defined(__DECC) && defined(__linux__)
-/* this is Compaq C under Linux, use __inline__ */
-#undef inline
-#define inline __inline__
-#else
-/* unknown compiler -> deactivate inline */
-#undef inline
-#define inline
-#endif
-
-#else
-/* INLINE has been set, use its value */
-#undef inline
-#define inline INLINE
-#endif
-
-#endif

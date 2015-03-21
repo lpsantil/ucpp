@@ -1460,3 +1460,4 @@ ARITH_DECL_MONO_ST_US(hexconst)
 #undef ARITH_DECIM
 #undef ARITH_OVAL
 #undef ARITH_OCTAL
+

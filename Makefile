@@ -78,16 +78,17 @@ LIBS =
 #LIBS = libefence.a
 #LIBS = -lgc_dbg
 
-#STAND_ALONE = -DSTAND_ALONE
+STAND_ALONE = -DSTAND_ALONE
 
 ifdef STAND_ALONE
-	FINAL_STEP = $(CC) $(LDFLAGS) -o ucpp $(COBJ) $(LIBS)
+	CSRC = mem.c nhash.c cpp.c lexer.c assert.c macro.c eval.c
+	FINAL_STEP = $(CC) $(LDFLAGS) -DUCPP_CONFIG $(STAND_ALONE) -o ucpp $(CSRC) $(LIBS)
 endif
 
 # ----- nothing should be changed below this line -----
 
 COBJ = mem.o nhash.o cpp.o lexer.o assert.o macro.o eval.o
-CFLAGS = $(FLAGS) $(STAND_ALONE)
+CFLAGS = $(FLAGS)
 
 all: ucpp
 	@ar cq libucpp.a *.o
@@ -112,3 +113,4 @@ mem.o: mem.h
 	@$(CC) $(CFLAGS) -c mem.c
 nhash.o: nhash.h mem.h
 	@$(CC) $(CFLAGS) -c nhash.c
+

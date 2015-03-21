@@ -1919,3 +1919,4 @@ struct macro *get_macro(char *name)
 {
 	return HTT_get(&macros, name);
 }
+

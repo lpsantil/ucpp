@@ -2028,7 +2028,10 @@ int cpp(struct lexer_state *ls)
 		}
 		if (ls_depth == 0) return CPPERR_EOF;
 		close_input(ls);
-		if (!(ls->flags & LEXER) && !ls->ltwnl) put_char(ls, '\n');
+		if (!(ls->flags & LEXER) && !ls->ltwnl) {
+			put_char(ls, '\n');
+			ls->ltwnl = 1;
+		}
 		pop_file_context(ls);
 		ls->oline ++;
 		if (enter_file(ls, ls->flags)) break;
@@ -2556,3 +2559,4 @@ int main(int argc, char *argv[])
 	return fr ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 #endif
+

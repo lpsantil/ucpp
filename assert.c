@@ -418,3 +418,4 @@ void print_assertions(void)
 {
 	HTT_scan(&assertions, print_assert);
 }
+
